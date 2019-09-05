@@ -3,7 +3,7 @@
 - Plugin Name: Users Insights
 - Plugin URI: https://usersinsights.com/
 - Description: Everything about your WordPress users in one place
-- Version: 3.7.1
+- Version: 0.0.1
 - Author: Pexeto
 - License: GPLv2 or later
 - License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,7 +54,7 @@ Users Insights is distributed in the hope that it will be useful, but WITHOUT AN
 - WooCommerce Subscriptions: changed the way the "Next payment" field data is retrieved for consistency with the WooCommerce Subscriptions table data: now it also shows past dates for the active subscriptions
 - LeranDash: Renamed the "Has/has not enrolled in course" in filter to "Has/has not engaged in course", to be more clear that it actually shows the users who had some activity in the course and not the ones who have access to the course but haven't started it yet
 - LearnDash: Separated the "Courses" user activity in user profile into two different lists - "Course Activity" showing progress on all courses that the user has ever engaged in (regardless of whether the user currently has access to the course) and "Course Access" listing all courses that the user has access to (regardless of activity)
-- Privacy: added an option to export and erase page visits (from the Page Visit Tracking module) upon user request 
+- Privacy: added an option to export and erase page visits (from the Page Visit Tracking module) upon user request
 - Privacy: added a suggested text to the Privacy Policy suggestions related with the Page Visit Tracking functionality
 - Changed the username link in the user table to be an actual link, instead of attaching a click event to open the user profile. This allows opening the user profile in a new tab.
 - User profile: Disable zoom on scroll on the map, as very often the scroll is intended to scroll down the page
@@ -126,7 +126,7 @@ Users Insights is distributed in the hope that it will be useful, but WITHOUT AN
     - First Order date field & filter in the user table
     - Total Sales Amount report
     - List WooCommerce coupons used in the user profile section
-    - Added a link in the WooCommerce order screen linking to the Users Insights profile page of the customer 
+    - Added a link in the WooCommerce order screen linking to the Users Insights profile page of the customer
     - WooCommerce Memberships: Ended Memberships report
     - WooCommerce Memberships: displayed the cancelled date of the membership (when available) in the user profile section
 - Improved: Allow floating labels in the reports that represent amounts
