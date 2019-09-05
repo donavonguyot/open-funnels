@@ -1,6 +1,6 @@
 === Users Insights WordPress Plugin ===
 
-- Plugin Name: Users Insights
+- Plugin Name: Open Funnels
 - Plugin URI: https://usersinsights.com/
 - Description: Everything about your WordPress users in one place
 - Version: 0.0.1

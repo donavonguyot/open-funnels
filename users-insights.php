@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Users Insights
+ * Plugin Name: Open Funnels
  * Plugin URI: https://usersinsights.com/
  * Description: Everything about your WordPress users in one place
  * Version: 3.7.1
@@ -15,7 +15,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  */
 
 if(!defined( 'ABSPATH' )){
@@ -65,26 +65,26 @@ if(! class_exists('USIN_Manager')){
 
 			if(is_admin()){
 				USIN_Plugin_Module_Initializer::init();
-				
+
 				new USIN_Capabilities();
 
 				$this->options = new USIN_Options();
-				
+
 				$this->list_page = new USIN_List_Page($this->title, $this->slug, $this->options);
 				$this->list_page->init();
 
 				$this->reports_page = new USIN_Reports_Page($this->slug);
 				$this->reports_page->init();
-				
+
 				$this->module_page = new USIN_Module_Page($this->slug, $this->modules);
 				$this->module_page->init();
-				
+
 				new USIN_Custom_Fields();
 				$this->cf_page = new USIN_Custom_Fields_Page($this->slug);
 				$this->cf_page->init();
 
 				USIN_Filters::init();
-				
+
 				$notes = new USIN_Notes();
 				$notes->init();
 
@@ -112,7 +112,7 @@ if(! class_exists('USIN_Manager')){
 
 			$schema = new USIN_Schema($this->user_data_db_table, $this->events_db_table, USIN_PLUGIN_FILE, USIN_VERSION);
 			$schema->init();
-			
+
 			do_action('usin_loaded');
 
 			//load the text domain
@@ -148,7 +148,7 @@ if(! class_exists('USIN_Manager')){
 		public function load_textdomain(){
 			load_plugin_textdomain( 'usin', false, basename( dirname( __FILE__ ) ) . '/lang/' );
 		}
-		
+
 		/**
 		 * Adds a "Settings" link to the Module Options page in the plugin listing
 		 */
@@ -173,4 +173,3 @@ if(! class_exists('USIN_Manager')){
 
 
 $usin->manager = USIN_Manager::get_instance();
-
