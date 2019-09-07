@@ -4,7 +4,7 @@
  * Includes the main initialization functionality for the Custom Fields page.
  */
 class USIN_Custom_Fields_Page{
-	
+
 	protected $capability;
 	protected $nonce_key = 'usin_custom_fields';
 	protected $assets;
@@ -20,7 +20,7 @@ class USIN_Custom_Fields_Page{
 	 * @param string $capability     the user capability required to access this page
 	 */
 	public function __construct($parent_slug){
-		$this->title = __('Custom Fields', 'usin');
+		$this->title = __('Fields', 'usin');
 		$this->parent_slug = $parent_slug;
 		$this->capability = USIN_Capabilities::MANAGE_CUSTOM_FIELDS;
 	}
@@ -34,7 +34,7 @@ class USIN_Custom_Fields_Page{
 
 		$this->assets = new USIN_Custom_Fields_Assets($this);
 		$this->assets->init();
-		// 
+		//
 		$this->ajax = new USIN_Custom_Fields_Ajax($this->capability, $this->nonce_key);
 		$this->ajax->add_actions();
 	}
@@ -44,7 +44,7 @@ class USIN_Custom_Fields_Page{
 	 */
 	public function add_menu_page(){
 
-		add_submenu_page( $this->parent_slug, $this->title, $this->title, 
+		add_submenu_page( $this->parent_slug, $this->title, $this->title,
 			$this->capability, $this->slug, array($this, 'print_page_markup') );
 	}
 

@@ -4,7 +4,7 @@
  * Includes the main initialization functionality for the Module Options page.
  */
 class USIN_Module_Page{
-	
+
 	protected $capability;
 	protected $nonce_key = 'usin_module_options';
 	protected $assets;
@@ -22,7 +22,7 @@ class USIN_Module_Page{
 	 * @param USIN_Modules $modules the Module Options object
 	 */
 	public function __construct($parent_slug, $modules){
-		$this->title = __('Module Options', 'usin');
+		$this->title = __('Modules', 'usin');
 		$this->parent_slug = $parent_slug;
 		$this->capability = USIN_Capabilities::MANAGE_OPTIONS;
 		$this->modules = $modules;
@@ -54,7 +54,7 @@ class USIN_Module_Page{
 	 */
 	public function add_menu_page(){
 
-		add_submenu_page( $this->parent_slug, $this->title, $this->title, 
+		add_submenu_page( $this->parent_slug, $this->title, $this->title,
 			$this->capability, $this->slug, array($this, 'print_page_markup') );
 	}
 
@@ -67,7 +67,7 @@ class USIN_Module_Page{
 
 	public function setup_notice(){
 		if($this->is_current_page() && usin_modules()->is_module_active('devices') && !usin_modules()->is_module_active('activity')){
-			$message = __("For best results, it is recommended to have the Users Insights Activity module active when using Device Detection. 
+			$message = __("For best results, it is recommended to have the Users Insights Activity module active when using Device Detection.
 				When the Activity module is deactivated, device detection will be only performed upon a user's manual sign in.", 'usin');
 			USIN_Notice::create('info', $message, 'devices_active_without_last_seen', 10 * YEAR_IN_SECONDS);
 		}

@@ -1,17 +1,17 @@
 <?php
 /**
  * Plugin Name: Open Funnels
- * Plugin URI: https://usersinsights.com/
- * Description: Everything about your WordPress users in one place
- * Version: 3.7.1
- * Author: Pexeto
+ * Plugin URI: https://openfunnels.com/
+ * Description: Everything about your Customers in one place
+ * Version: 0.0.1
+ * Author: Open Funnels
  * Text Domain: usin
  * Domain Path: /lang
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Copyright: Pexeto 2018
  *
- * Users Insights is distributed in the hope that it will be useful,
+ * Open Funnels is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -125,7 +125,7 @@ if(! class_exists('USIN_Manager')){
 		 */
 		public function config(){
 
-			$this->title = __('Users Insights', 'usin');
+			$this->title = __('Customers', 'usin');
 
 			//set constants
 			if ( ! defined( 'USIN_VERSION' ) ) {

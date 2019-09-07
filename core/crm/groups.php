@@ -6,14 +6,14 @@
  * groups for the user.
  */
 class USIN_Groups{
-	
+
 	public static $slug = 'usin_group';
 	public static $color_meta_key = 'usin_color';
 	protected $parent_slug;
 	protected $capability;
 	protected static $all_groups;
 	protected static $instance;
-	
+
 	protected function __construct($parent_slug){
 		$this->parent_slug = $parent_slug;
 		$this->capability = USIN_Capabilities::MANAGE_GROUPS;
@@ -29,7 +29,7 @@ class USIN_Groups{
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Registers the required hooks to create the user group taxonomy
 	 * and the color meta for the group.
@@ -43,7 +43,7 @@ class USIN_Groups{
 
 		add_action( 'admin_menu', array($this, 'add_page_to_menu') );
 		add_filter( 'parent_file', array($this, 'highlight_parent_menu'));
-		
+
 		if(function_exists('add_term_meta')){
 			//add the hooks to add a color option for the group taxonomy
 			add_action( self::$slug.'_add_form_fields', array($this, 'add_color_field'));
@@ -55,27 +55,27 @@ class USIN_Groups{
 			add_filter( 'manage_'.self::$slug.'_custom_column',  array($this, 'add_group_color_column_content'), 10, 3 );
 		}
 	}
-	
+
 	/**
 	 * Loads all of the groups, including the ones that are empty.
 	 * @return array array containing the group data
 	 */
 	public static function get_all_groups(){
-		
+
 		if(empty(self::$all_groups)){
 			$terms = get_terms(self::$slug, array('hide_empty' => false));
 			$groups = array();
-			
+
 			if(!empty($terms)){
 				foreach ($terms as $term) {
 					$color = get_term_meta( $term->term_id, self::$color_meta_key, true );
-					$groups[]=array('key'=>$term->term_id, 'val'=>$term->name, 
+					$groups[]=array('key'=>$term->term_id, 'val'=>$term->name,
 						'color'=>$color);
 				}
 			}
 			self::$all_groups = $groups;
 		}
-		
+
 		return self::$all_groups;
 	}
 
@@ -85,7 +85,7 @@ class USIN_Groups{
 			return $group->name;
 		}
 	}
-	
+
 	/**
 	 * Update the groups assigned to a user.
 	 * @param  int $user_id the ID of the user
@@ -97,11 +97,11 @@ class USIN_Groups{
 		if(is_wp_error($res)){
 			return false;
 		}
-		
+
 		clean_object_term_cache( $user_id, self::$slug );
 		return true;
 	}
-	
+
 	/**
 	 * Loads the groups that are assigned to a user
 	 * @param  int $user_id the ID of the user
@@ -119,42 +119,42 @@ class USIN_Groups{
 			}
 		}
 	}
-	
+
 	public static function update_user_groups_bulk($users, $group_id, $action){
 		wp_defer_term_counting(true); //defer counting terms, do not update the term
 		//count after updating the group for each user
 		$failures = 0;
-		
+
 		foreach ($users as $user_id) {
 			$res = null;
-			
+
 			if($action == 'add'){
 				$res = wp_set_object_terms( $user_id, $group_id, self::$slug, true );
 			}elseif($action == 'remove'){
 				$res = wp_remove_object_terms( $user_id, $group_id, self::$slug );
 			}
-			
+
 			if(is_wp_error($res)){
 				$failures++;
 			}
 		}
 		wp_defer_term_counting(false);
 		wp_update_term_count($group_id, self::$slug); //update the term count now (only once)
-		
+
 		if($failures === 0){
 			return true;
 		}
 		return new WP_Error('usin_group_edit_fail', sprintf(__('Failed to update group of %d users', 'usin'), $failures));
 	}
-	
+
 	/**
 	 * Adds the User Groups taxonomy page to the Users Insights menu.
 	 */
 	public function add_page_to_menu(){
-		add_submenu_page( $this->parent_slug, __( 'User Groups' , 'usin'), __( 'User Groups' , 'usin'), 
+		add_submenu_page( $this->parent_slug, __( 'Groups' , 'usin'), __( 'Groups' , 'usin'), 
 			$this->capability, 'edit-tags.php?taxonomy=' . self::$slug );
 	}
-	
+
 	/**
 	 * Checks whether the current page is the user group taxonomy page.
 	 * @return boolean true if it is the user group taxonomy page and false otherwise
@@ -163,9 +163,9 @@ class USIN_Groups{
 		global $pagenow;
 		return !empty($_GET['taxonomy']) && ($pagenow == 'edit-tags.php' || $pagenow =='term.php') && $_GET['taxonomy'] == self::$slug;
 	}
-	
+
 	/**
-	 * Fix a bug with highlighting the parent menu item. By default, when on the 
+	 * Fix a bug with highlighting the parent menu item. By default, when on the
 	 * edit taxonomy page for a user taxonomy, the Posts tab is highlighted
 	 * This will correct that bug.
 	 */
@@ -173,25 +173,25 @@ class USIN_Groups{
 		if($this->is_group_taxonomy_page()) {
 			$parent	= $this->parent_slug;
 		}
-		
+
 		return $parent;
 	}
-	
+
 	/**
 	 * Loads the assets for the Color Select element.
 	 */
 	public function load_color_select_assets(){
 		if($this->is_group_taxonomy_page()) {
-			wp_enqueue_script('usin_color_select', 
-				plugins_url('js/color-select.js', USIN_PLUGIN_FILE), 
-				array('jquery'), 
+			wp_enqueue_script('usin_color_select',
+				plugins_url('js/color-select.js', USIN_PLUGIN_FILE),
+				array('jquery'),
 				USIN_VERSION);
-			
-			wp_enqueue_style( 'usin_color_select_css', 
+
+			wp_enqueue_style( 'usin_color_select_css',
 				plugins_url('css/color-select.css', USIN_PLUGIN_FILE ), array(), USIN_VERSION );
 		}
 	}
-	
+
 	/**
 	 * Registers the User Group taxonomy.
 	 */
@@ -228,7 +228,7 @@ class USIN_Groups{
 			)
 		);
 	}
-	
+
 	/**
 	 * Adds a color select field to the Add User Group form.
 	 * @param string $taxonomy the taxonomy
@@ -236,11 +236,11 @@ class USIN_Groups{
 	public function add_color_field($taxonomy){
 		?><div class="form-field term-group">
 			<label for="colort-group"><?php _e('Group Color', 'usin'); ?></label>
-			<input type="hidden" name="usin-group-color" class="usin-color-select" 
+			<input type="hidden" name="usin-group-color" class="usin-color-select"
 				data-colors="<?php echo esc_attr($this->get_color_options_string()); ?>"/>
 		</div><?php
 	}
-	
+
 	/**
 	 * Adds a color select field to the Edit User Group form.
 	 * @param object $term     the term object that is being edited
@@ -258,7 +258,7 @@ class USIN_Groups{
 			</td>
 		</tr><?php
 	}
-	
+
 	/**
 	 * Saves the color meta when a new user group is created.
 	 * @param  int $term_id the ID of the term that is created
@@ -269,7 +269,7 @@ class USIN_Groups{
 			add_term_meta( $term_id, self::$color_meta_key, $_POST['usin-group-color'], true );
 		}
 	}
-	
+
 	/**
 	 * Updates the color meta when a user group is updated.
 	 * @param  int $term_id the ID of the term that is created
@@ -280,7 +280,7 @@ class USIN_Groups{
 			update_term_meta( $term_id, self::$color_meta_key, $_POST['usin-group-color'] );
 		}
 	}
-	
+
 	/**
 	 * Adds a Group Color column to the User Group table.
 	 * @param array $columns the existing table columns
@@ -289,10 +289,10 @@ class USIN_Groups{
 		$new_columns = array_slice($columns, 0, 2, true) +
 		    array('usin_color' =>  __( 'Group Color', 'usin' )) +
 		    array_slice($columns, 2, count($columns) - 1, true) ;
-		
+
 	    return $new_columns;
 	}
-	
+
 	/**
 	 * Adds the color box to the Group Color column that indicates the color of
 	 * the group.
@@ -304,7 +304,7 @@ class USIN_Groups{
 		if( $column_name !== 'usin_color' ){
 	        return $content;
 	    }
-		
+
 		$term_id = absint( $term_id );
 	    $color = get_term_meta( $term_id, self::$color_meta_key, true );
 
@@ -314,12 +314,12 @@ class USIN_Groups{
 
 	    return $content;
 	}
-	
+
 	protected function get_color_options_string(){
 		$colors = array('d1efdc','eee1ff','fbdde9','ffe5da','dbf0fd',
 			'e5f5d9','e2ebff','d4f1ec','fff4d3','ddf2f4');
 		$colors = apply_filters('usin_group_colors', $colors);
 		return implode(',', $colors);
 	}
-	
+
 }
